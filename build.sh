@@ -73,7 +73,7 @@ Package()
     # TODO: Use no-restore? Because Build should have already done it for us
     echo "Building"
     cd API
-    echo dotnet publish -c Release --self-contained --runtime $runtime -o "$lOutputFolder"
+    echo dotnet publish -c Release --self-contained --runtime $runtime -p:PublishReadyToRun=false -o "$lOutputFolder"
     dotnet publish -c Release --self-contained --runtime $runtime -o "$lOutputFolder"
 
     echo "Recopying wwwroot due to bug"
