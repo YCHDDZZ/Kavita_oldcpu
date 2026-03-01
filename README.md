@@ -1,116 +1,90 @@
-﻿# [<img src="/Logo/kavita.svg" width="32" alt="">]() Kavita
-<div align="center">
+# debain11本地兼容编译教程（默认root用户）
+## 一、环境搭建
+### 1. net版本：要求10.0.0或更高。 输入dotnet --info查看版本
+若版本错误，安装10.0.0版本可使用使用微软官方安装脚本
 
-![new_github_preview_stills](https://github.com/user-attachments/assets/f016b34f-3c4c-4f07-8e72-12cd6f4e71ea)
+wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
 
-Kavita is a fast, feature rich, cross-platform reading server. Built with a focus for being a full solution for all your reading needs. Set up your own server and share
-your reading collection with your friends and family!
+chmod +x dotnet-install.sh
 
-[![Release](https://img.shields.io/github/release/Kareadita/Kavita.svg?style=flat&maxAge=3600)](https://github.com/Kareadita/Kavita/releases)
-[![License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat)](https://github.com/Kareadita/Kavita/blob/master/LICENSE)
-[![Downloads](https://img.shields.io/github/downloads/Kareadita/Kavita/total.svg?style=flat)](https://github.com/Kareadita/Kavita/releases)
-[![Docker Pulls](https://img.shields.io/docker/pulls/jvmilazz0/kavita.svg)](https://hub.docker.com/r/jvmilazz0/kavita)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Kareadita_Kavita&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Kareadita_Kavita)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Kareadita_Kavita&metric=security_rating)](https://sonarcloud.io/dashboard?id=Kareadita_Kavita)
-[![Backers on Open Collective](https://opencollective.com/kavita/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/kavita/sponsors/badge.svg)](#sponsors)
-<a href="https://hosted.weblate.org/engage/kavita/">
-<img src="https://hosted.weblate.org/widgets/kavita/-/ui/svg-badge.svg" alt="Translation status" />
-</a>
-<img src="https://img.shields.io/endpoint?url=https://stats.kavitareader.com/api/ui/shield-badge"/>
-</div>
+./dotnet-install.sh --channel 10.0
 
+配置环境变量（.bashrc文件建议默认选择root目录下的）
 
-## What Kavita Provides
-- Serve up Manga/Webtoons/Comics (cbr, cbz, zip/rar/rar5, 7zip, raw images) and Books (epub, pdf)
-- First class responsive readers that work great on any device (phone, tablet, desktop)
-- Customizable theming support: [Theme Repo](https://github.com/Kareadita/Themes) and [Documentation](https://wiki.kavitareader.com/guides/themes)
-- External metadata integration and scrobbling for read status, ratings, and reviews (available via [Kavita+](https://wiki.kavitareader.com/kavita+)) 
-- Rich Metadata support with filtering, searching, and smart filters
-- Ways to group reading material: Collections, Reading Lists (CBL Import), Want to Read
-- Ability to manage users with rich Role-based management for age restrictions, abilities within the app, OIDC, etc
-- Rich web readers supporting webtoon, continuous reading mode (continue without leaving the reader), virtual pages (epub), etc
-- Ability to customize your dashboard and side nav with smart filters, custom order and visibility toggles
-- Full Localization Support ([Weblate](https://hosted.weblate.org/engage/kavita/))
-- Ability to download metadata, reviews, ratings, and more (available via [Kavita+](https://wiki.kavitareader.com/kavita+))
-- Epub-based Annotation/Highlight support 
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
 
-## Support
-[![Discord](https://img.shields.io/badge/discord-chat-7289DA.svg?maxAge=60)](https://discord.gg/eczRp9eeem)
-[![GitHub - Bugs Only](https://img.shields.io/badge/github-issues-red.svg?maxAge=60)](https://github.com/Kareadita/Kavita/issues)
+echo 'export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools' >> ~/.bashrc
 
-## Demo
-If you want to try out Kavita, a demo is available:
-[https://demo.kavitareader.com/](https://demo.kavitareader.com/login?apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f)
-```
-Username: demouser
-Password: Demouser64
-```
+source ~/.bashrc
 
-## Setup
-The easiest way to get started is to visit our Wiki which has up-to-date information on a variety of
-install methods and platforms.
-[https://wiki.kavitareader.com/getting-started](https://wiki.kavitareader.com/getting-started)
+### 2. node版本和npm版本：分别要求20.19.0和10.0.0或更高。分别输入node --version和npm --version查看版本
+若版本错误，彻底卸载当前的Node.js和npm，安装适合的版本
 
-## Feature Requests
-Got a great idea? Throw it up on [Discussions](https://github.com/Kareadita/Kavita/discussions/2529) or vote on another idea. Many great features in Kavita are driven by our community. 
+通过 apt 移除 nodejs 和 npm 包及其配置文件
 
-## Notice
-Kavita is being actively developed and should be considered beta software until the 1.0 release.
-Kavita may be subject to changes in how the platform functions as it is being built out toward the
-vision. You may lose data and have to restart. The Kavita team strives to avoid any data loss.
+apt-get remove --purge nodejs npm -y
 
-## Donate
-If you like Kavita, have gotten good use out of it, or feel like you want to say thanks with a few bucks, feel free to donate. Money will go towards
-expenses related to Kavita. Back us through [OpenCollective](https://opencollective.com/Kavita#backer). You can also use [Paypal](https://www.paypal.com/paypalme/majora2007?locale.x=en_US), however your name will not show below. Kavita+ is also an 
-option which provides funding, and you get a benefit.
+移除不再需要的依赖包
 
-## Kavita+
-[Kavita+](https://wiki.kavitareader.com/kavita+) is a paid subscription that offers premium features that otherwise wouldn't be feasible to include in Kavita. It is ran and operated by majora2007, the creator and developer of Kavita.
+apt-get autoremove -y
 
-If you are interested, you can use the promo code [`FIRSTTIME`](https://buy.stripe.com/00gcOQanFajG0hi5ko?prefilled_promo_code=FIRSTTIME) for your initial signup for a 50% discount on the first month (2$). This can be thought of as donating to Kavita's development and getting some sweet features out of it.
+清理 apt 缓存
 
-**If you already contribute via OpenCollective, please reach out to majora2007 for a provisioned license.**
+apt-get autoclean
 
-## Localization
-Thank you to [Weblate](https://hosted.weblate.org/engage/kavita/) who hosts our localization infrastructure pro bono. If you want to see Kavita in your language, please help us localize.
+手动删除可能残留的全局目录和文件（重要）
 
-<a href="https://hosted.weblate.org/engage/kavita/">
-<img src="https://hosted.weblate.org/widget/kavita/horizontal-auto.svg" alt="Translation status" />
-</a>
+rm -rf /usr/local/bin/node
 
-## PikaPods
-If you are looking to try your hand at self-hosting but lack the machine, [PikaPods](https://www.pikapods.com/pods?run=kavita) is a great service that 
-allows you to easily spin up a server. 20% of app revenues are contributed back to Kavita via OpenCollective.
+rm -rf /usr/local/bin/npm
 
+rm -rf /usr/local/bin/npx
 
-## Contributors
+rm -rf /usr/local/lib/node_modules
 
-This project exists thanks to all the people who contribute and downstream library maintainers. [Contribute](CONTRIBUTING.md).
-<a href="https://github.com/Kareadita/Kavita/graphs/contributors">
-<img src="https://opencollective.com/kavita/contributors.svg?width=890&button=false&avatarHeight=42" />
-</a>
+rm -rf /usr/local/include/node
 
+rm -rf /usr/local/share/doc/node
 
-## Backers
+删除当前用户目录下的 npm 和 node 相关配置与缓存
 
-Thank you to all our backers! 🙏 [Become a backer](https://opencollective.com/Kavita#backer)
+rm -rf ~/.npm
 
-<img src="https://opencollective.com/kavita/backers.svg?width=890&avatarHeight=42"></a>
+rm -rf ~/.npmrc
 
-## Sponsors
+rm -rf ~/.node-gyp
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/Kavita#sponsor)
+rm -rf ~/.node_repl_history
 
-<img src="https://opencollective.com/Kavita/sponsors.svg?width=890"></a>
+安装 Node.js 20.x
 
-## Mega Sponsors
-<img src="https://opencollective.com/Kavita/tiers/mega-sponsor.svg?width=890"></a>
+更新包索引并安装依赖工具
 
-## Powered By
-[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSource)
+apt update
 
-### License
-* [GNU GPL v3](http://www.gnu.org/licenses/gpl.html)
-* Copyright 2020-2024
+apt install -y curl gnupg2 ca-certificates
 
+下载并运行 NodeSource 针对 20.x 版本的安装脚本
+
+这个脚本会自动添加正确的软件源并更新包列表
+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+
+安装 Node.js 和 npm
+
+apt install -y nodejs
+
+将 npm 升级到最新稳定版
+
+npm install -g npm@latest
+
+### 3. libstdc++：要求是libstdc++.so.6版本。
+重新安装前端依赖，进入前端目录，删除 node_modules 和 package-lock.json，然后重新安装
+
+cd /opt/Kavita_oldcpu-oldcpu/UI/Web
+
+rm -rf node_modules package-lock.json
+
+npm cache clean --force
+
+npm install --legacy-peer-deps
